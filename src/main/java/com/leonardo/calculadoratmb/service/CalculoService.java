@@ -1,12 +1,16 @@
 package com.leonardo.calculadoratmb.service;
 
+import org.springframework.stereotype.Service;
+
 import com.leonardo.calculadoratmb.model.DadosUsuario;
 
+@Service
 public class CalculoService {
 	
 public DadosUsuario calcular(DadosUsuario dados) {
 		
 		double soma = 0;
+		double ativi = 0;
 		
 		if(dados.getGenero().equalsIgnoreCase("f")) {
 			soma += dados.getPeso() * 9.6;
@@ -22,8 +26,20 @@ public DadosUsuario calcular(DadosUsuario dados) {
 			soma -= dados.getIdade() * 6.8;
 		    
 		}
+						
+		if(dados.getAtividade() == 0) {
+			ativi = 1.2; 
+		}if(dados.getAtividade() >= 1 && dados.getAtividade() <= 3) {
+			ativi = 1.375;
+		}if(dados.getAtividade() >= 3 && dados.getAtividade() <= 5) {
+			ativi = 1.55;
+		}if(dados.getAtividade() == 6 && dados.getAtividade() <= 7) {
+			ativi = 1.725;
+		}if(dados.getAtividade() > 7) {
+			ativi = 1.9;
+		}
 		
-		dados.setCalorias(soma);
+		dados.setCalorias(soma * ativi);
 		
 		return dados;	        
 	
